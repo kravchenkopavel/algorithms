@@ -10,17 +10,30 @@ import java.math.BigInteger;
  */
 public class Main {
 
+    static BigInteger etalon1_ad_bc = new BigInteger("18");
+    static BigInteger etalon2_ad_bc = new BigInteger("9");
+    static BigInteger etalon3_ad_bc = new BigInteger("8");
+    static BigInteger etalon4_ad_bc = new BigInteger("8");
+    static int countEtalon1 = 0;
+    static int countEtalon2 = 0;
+    static int countEtalon4 = 0;
+    static int countEtalon3 = 0;
+
     public static void main (String[] args){
 
-        String X = "8711129198194917883527844183686122989894424943636426448417394566";
-        String Y = "2924825637132661199799711722273977411715641477832758942277358764";
-        String rightAnswer = "25478534007255378799894857247961445544397925869179138904636157575535921570058983065006369481295619500406669960288667484926076424";
+        String X = "9313685456934674";
+        String Y = "7658898761837539";
+        String rightAnswer = "71332574014261268360454523927286";
         BigInteger num = new BigInteger(rightAnswer);
 
         BigInteger result = multipleKarathuba(X,Y);
-        System.out.println("Multiple " + X + " on " + Y + " is: " + result);
-        System.out.println("Result is right: " + (result.equals(num)));
 
+        System.out.println("Multiple " + X + " on " + Y + " is: \n" + result);
+        System.out.println("Result is right: " + (result.equals(num)));
+        System.out.println(etalon1_ad_bc + " -> [" + countEtalon1 + "]");
+        System.out.println(etalon2_ad_bc + " -> [" + countEtalon2 + "]");
+        System.out.println(etalon3_ad_bc + " -> [" + countEtalon3 + "]");
+        System.out.println(etalon4_ad_bc + " -> [" + countEtalon4 + "]");
     }
 
     public static BigInteger multipleKarathuba(String X, String Y){
@@ -61,11 +74,21 @@ public class Main {
 
             BigInteger ac = multipleKarathuba(a, c);
             BigInteger bd = multipleKarathuba(b, d);
-            BigInteger a_Plus_b_Mlt_c_Plus_d = multipleKarathuba(((new BigInteger(a)).add(new BigInteger(b))).toString(),
-                                                                ((new BigInteger(c)).add(new BigInteger(d))).toString());
-            BigInteger ad_bc = (a_Plus_b_Mlt_c_Plus_d.subtract(ac)).subtract(bd);
+            BigInteger ad_bc = multipleKarathuba(((new BigInteger(a)).add(new BigInteger(b))).toString(),
+                                                                ((new BigInteger(c)).add(new BigInteger(d))).toString()).
+                                                subtract(ac).subtract(bd);
 
-            System.out.println("\n(ad + bc) = " + ad_bc);
+            if (ad_bc.equals(etalon1_ad_bc)){
+                countEtalon1 ++;
+            }
+
+            if (ad_bc.equals(etalon2_ad_bc)){
+                countEtalon2 ++;
+            }
+
+            if (ad_bc.equals(etalon3_ad_bc)){
+                countEtalon3 ++;
+            }
 
             return (BigInteger.valueOf(10).pow(MAX_width).multiply(ac)).
                     add(BigInteger.valueOf(10).pow(MAX_width/2).multiply(ad_bc)).add(bd);
