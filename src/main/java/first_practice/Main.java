@@ -10,20 +10,18 @@ import java.math.BigInteger;
  */
 public class Main {
 
-    static BigInteger etalon1_ad_bc = new BigInteger("18");
-    static BigInteger etalon2_ad_bc = new BigInteger("9");
-    static BigInteger etalon3_ad_bc = new BigInteger("8");
-    static BigInteger etalon4_ad_bc = new BigInteger("8");
+    static BigInteger etalon1_ad_bc = new BigInteger("64");
+    static BigInteger etalon2_ad_bc = new BigInteger("60");
+    static BigInteger etalon3_ad_bc = new BigInteger("58");
     static int countEtalon1 = 0;
     static int countEtalon2 = 0;
-    static int countEtalon4 = 0;
     static int countEtalon3 = 0;
 
     public static void main (String[] args){
 
-        String X = "9313685456934674";
-        String Y = "7658898761837539";
-        String rightAnswer = "71332574014261268360454523927286";
+        String X = "8711129198194917883527844183686122989894424943636426448417394566";
+        String Y = "2924825637132661199799711722273977411715641477832758942277358764";
+        String rightAnswer = "25478534007255378799894857247961445544397925869179138904636157575535921570058983065006369481295619500406669960288667484926076424";
         BigInteger num = new BigInteger(rightAnswer);
 
         BigInteger result = multipleKarathuba(X,Y);
@@ -33,14 +31,13 @@ public class Main {
         System.out.println(etalon1_ad_bc + " -> [" + countEtalon1 + "]");
         System.out.println(etalon2_ad_bc + " -> [" + countEtalon2 + "]");
         System.out.println(etalon3_ad_bc + " -> [" + countEtalon3 + "]");
-        System.out.println(etalon4_ad_bc + " -> [" + countEtalon4 + "]");
     }
 
     public static BigInteger multipleKarathuba(String X, String Y){
         int X_width = X.length();
         int Y_width = Y.length();
 
-        if (X_width == 1 && Y_width == 1){
+        if (X_width < 2 && Y_width < 2){
             return BigInteger.valueOf(Integer.parseInt(X)*Integer.parseInt(Y));
         }
 
@@ -52,9 +49,15 @@ public class Main {
                 MAX_width = X_width > Y_width ? X_width : Y_width;
             }
             else MAX_width = X_width;
-
+/*
             //проверить на четность
             if (MAX_width % 2 !=0) MAX_width ++;
+*/
+            //подвести к степени двойки
+            if ( (MAX_width & (MAX_width - 1)) != 0) {
+                int st = (int) (Math.log10(MAX_width) / Math.log10(2));
+                MAX_width = (int) Math.pow(2, st + 1);
+            }
 
             //выровнять числа
             while (MAX_width - X_width > 0){
